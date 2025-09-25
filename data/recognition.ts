@@ -125,7 +125,7 @@ export const patents = [
     title: "Magnetic Gun (M-Gun)",
     blurb:
       "Magnetic propulsion prototype for controlled, non-combustion launching.",
-    images: ["/images/patent_mgun.jpg"], // place this image file in /public/images
+    images: ["/images/patent_mgun.jpg"],
     pdfUrl: "/docs/patents_portfolio.pdf",
     professionalImpact:
       "Shows practical prototyping, risk assessment, and iteration.",

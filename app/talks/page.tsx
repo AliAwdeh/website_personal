@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Section } from "@/components/Section";
 import { Card } from "@/components/Card";
-import YouTubeLite from "@/components/YouTubeLite";
+import YouTubeLite from "@/components/YoutubeLite";
 
 // Page-specific SEO (overrides defaults from layout)
 export const metadata: Metadata = {

@@ -10,7 +10,6 @@ const links = [
   { href: "/experience", label: "Experience" },
   { href: "/awards", label: "Awards & Patents" },
   { href: "/talks", label: "Talks" },
-  { href: "/exhibitions", label: "Exhibitions" },
   { href: "/contact", label: "Contact" },
 ];
 

@@ -99,7 +99,7 @@ export const awards = [
 export const memberships = [
   {
     year: 2023,
-    title: "IFIA Membership (Inv)",
+    title: "IFIA Membership (Inv) lb2023jun147acxa",
     org: "International Federation of Inventors' Associations (IFIA)",
     blurb: "Recognized as an IFIA ‘Inv’ member.",
     images: ["/images/ifia_membership.jpg"],
@@ -112,17 +112,17 @@ export const memberships = [
 export const patents = [
   {
     year: 2017,
-    title: "Smart Wind Controller",
+    title: "Smart Wind Controller LB11247",
     blurb:
       "Controller that optimizes turbine loads; demonstrated lifespan extension in testing contexts.",
-    images: ["/images/patent_swc.jpg"], // place this image file in /public/images
+    images: ["/images/patent_swc.jpg"],
     pdfUrl: "/docs/patents_portfolio.pdf",
     professionalImpact:
       "Signals systems-thinking and reliability engineering.",
   },
   {
     year: 2017,
-    title: "Magnetic Gun (M-Gun)",
+    title: "Magnetic Gun (M-Gun) LB11089",
     blurb:
       "Magnetic propulsion prototype for controlled, non-combustion launching.",
     images: ["/images/patent_mgun.jpg"],

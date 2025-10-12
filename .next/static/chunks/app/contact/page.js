@@ -6,7 +6,7 @@
  * or disable the default devtool with "devtool: false".
  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
  */
-(self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([["app/awards/page"],{
+(self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([["app/contact/page"],{
 
 /***/ "(app-pages-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22C%3A%5C%5CUsers%5C%5CAliIA%5C%5CDocuments%5C%5CProjects%5C%5Cwebsite_personal%5C%5Ccomponents%5C%5CCard.tsx%22%2C%22ids%22%3A%5B%22Card%22%5D%7D&modules=%7B%22request%22%3A%22C%3A%5C%5CUsers%5C%5CAliIA%5C%5CDocuments%5C%5CProjects%5C%5Cwebsite_personal%5C%5Ccomponents%5C%5CSection.tsx%22%2C%22ids%22%3A%5B%22Section%22%5D%7D&server=false!":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\

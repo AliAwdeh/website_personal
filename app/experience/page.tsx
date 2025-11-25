@@ -8,6 +8,11 @@ export default function ExperiencePage() {
       <Section title="Experience" subtitle="Roles with measurable impact">
         <Card>
           <Timeline items={[
+                        { 
+  year: "2025–Present", 
+  title: "Software Engineer — Maids.cc", 
+  subtitle: "AI automation, LLM evaluation agents, backend integrations & business-logic systems" 
+},
             { year: "2024–2025", title: "Software Engineer Freelance — Senal Forex", subtitle: "AI-driven bots; 60% manual analysis reduction; 20% forecast accuracy improvements" },
             { year: "2024", title: "Backend Developer Intern — Esri Lebanon", subtitle: "TMS backend; 40% reporting time reduction; handled 10k+ records" },
             { year: "2023", title: "Automation & Scripting Intern — Esri Lebanon", subtitle: "Workflow automation with Python/JS across teams" },

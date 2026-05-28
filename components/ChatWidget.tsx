@@ -11,9 +11,20 @@ type ChatMessage = {
 
 const MAX_INPUT_LENGTH = 2000;
 const MAX_HISTORY_MESSAGES = 10;
+const VISITOR_ID_KEY = "ali_chat_visitor_id";
+const CONVERSATION_ID_KEY = "ali_chat_conversation_id";
 
 function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
+function getStoredId(key: string, prefix: string) {
+  const existing = window.localStorage.getItem(key);
+  if (existing) return existing;
+
+  const id = `${prefix}_${crypto.randomUUID()}`;
+  window.localStorage.setItem(key, id);
+  return id;
 }
 
 function renderLinkedText(text: string): ReactNode[] {
@@ -96,6 +107,8 @@ export function ChatWidget() {
     scrollToEnd();
 
     try {
+      const visitorId = getStoredId(VISITOR_ID_KEY, "visitor");
+      const conversationId = window.localStorage.getItem(CONVERSATION_ID_KEY);
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
@@ -106,8 +119,16 @@ export function ChatWidget() {
             .filter((message) => message.id !== "welcome")
             .slice(-MAX_HISTORY_MESSAGES)
             .map(({ role, content }) => ({ role, content })),
+          visitor_id: visitorId,
+          conversation_id: conversationId,
+          page_url: window.location.href,
+          referrer: document.referrer,
         }),
       });
+      const nextConversationId = response.headers.get("X-Conversation-Id");
+      if (nextConversationId) {
+        window.localStorage.setItem(CONVERSATION_ID_KEY, nextConversationId);
+      }
 
       if (!response.ok || !response.body) {
         const errorText = await response.text().catch(() => "");

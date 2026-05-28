@@ -1,5 +1,13 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import type { NextRequest } from "next/server";
+import {
+  buildConversationMeta,
+  notifyLeadIfConfigured,
+  saveMessage,
+  scoreLead,
+  upsertConversation,
+} from "@/lib/admin/chat-log";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -7,6 +15,14 @@ export const dynamic = "force-dynamic";
 type ChatMessage = {
   role: "user" | "assistant";
   content: string;
+};
+
+type ChatRequestBody = {
+  messages?: unknown;
+  visitor_id?: unknown;
+  conversation_id?: unknown;
+  page_url?: unknown;
+  referrer?: unknown;
 };
 
 const OLLAMA_BASE_URL = (process.env.OLLAMA_BASE_URL ?? "http://192.168.0.133:11434").replace(/\/+$/, "");
@@ -55,8 +71,8 @@ function friendlyError(message: string, status = 503) {
   });
 }
 
-export async function POST(request: Request) {
-  let body: { messages?: unknown };
+export async function POST(request: NextRequest) {
+  let body: ChatRequestBody;
 
   try {
     body = await request.json();
@@ -68,6 +84,25 @@ export async function POST(request: Request) {
 
   if (!messages.length) {
     return friendlyError("Please send a message to start the chat.", 400);
+  }
+
+  const latestUserMessage = [...messages].reverse().find((message) => message.role === "user");
+  const conversationMeta = buildConversationMeta(request, {
+    conversationId: typeof body.conversation_id === "string" ? body.conversation_id : undefined,
+    visitorId: typeof body.visitor_id === "string" ? body.visitor_id : undefined,
+    pageUrl: typeof body.page_url === "string" ? body.page_url : undefined,
+    referrer: typeof body.referrer === "string" ? body.referrer : undefined,
+  });
+  const lead = scoreLead(latestUserMessage?.content ?? "");
+
+  try {
+    upsertConversation(conversationMeta, lead);
+    if (latestUserMessage) {
+      saveMessage(conversationMeta.id, "user", latestUserMessage.content);
+      void notifyLeadIfConfigured(conversationMeta.id, lead);
+    }
+  } catch (error) {
+    console.error("Failed to save chat conversation.", error);
   }
 
   let systemPrompt: string;
@@ -106,7 +141,15 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Ollama request failed.", error);
-    return friendlyError("The local AI server is currently unavailable.");
+    try {
+      saveMessage(conversationMeta.id, "assistant", "The local AI server is currently unavailable.");
+    } catch (saveError) {
+      console.error("Failed to save assistant error message.", saveError);
+    }
+
+    const response = friendlyError("The local AI server is currently unavailable.");
+    response.headers.set("X-Conversation-Id", conversationMeta.id);
+    return response;
   }
 
   if (!ollamaResponse.ok) {
@@ -121,18 +164,33 @@ export async function POST(request: Request) {
       errorText.toLowerCase().includes("model") ||
       errorText.includes(OLLAMA_MODEL)
     ) {
-      return friendlyError(
-        `The model ${OLLAMA_MODEL} is not available on the Ollama server.`,
-        404,
-      );
+      const message = `The model ${OLLAMA_MODEL} is not available on the Ollama server.`;
+      try {
+        saveMessage(conversationMeta.id, "assistant", message);
+      } catch (saveError) {
+        console.error("Failed to save assistant model error message.", saveError);
+      }
+
+      const response = friendlyError(message, 404);
+      response.headers.set("X-Conversation-Id", conversationMeta.id);
+      return response;
     }
 
-    return friendlyError("The local AI server is currently unavailable.");
+    try {
+      saveMessage(conversationMeta.id, "assistant", "The local AI server is currently unavailable.");
+    } catch (saveError) {
+      console.error("Failed to save assistant server error message.", saveError);
+    }
+    const response = friendlyError("The local AI server is currently unavailable.");
+    response.headers.set("X-Conversation-Id", conversationMeta.id);
+    return response;
   }
 
   if (!ollamaResponse.body) {
     console.error("Ollama response did not include a stream body.");
-    return friendlyError("The local AI server is currently unavailable.");
+    const response = friendlyError("The local AI server is currently unavailable.");
+    response.headers.set("X-Conversation-Id", conversationMeta.id);
+    return response;
   }
 
   const encoder = new TextEncoder();
@@ -142,6 +200,7 @@ export async function POST(request: Request) {
     async start(controller) {
       const reader = ollamaResponse.body!.getReader();
       let buffer = "";
+      let assistantContent = "";
 
       const processLine = (line: string) => {
         const trimmed = line.trim();
@@ -167,6 +226,7 @@ export async function POST(request: Request) {
           }
 
           if (chunk.message?.content) {
+            assistantContent += chunk.message.content;
             controller.enqueue(encoder.encode(chunk.message.content));
           }
         } catch (error) {
@@ -181,6 +241,13 @@ export async function POST(request: Request) {
           if (done) {
             buffer += decoder.decode();
             if (buffer) processLine(buffer);
+            if (assistantContent.trim()) {
+              try {
+                saveMessage(conversationMeta.id, "assistant", assistantContent);
+              } catch (error) {
+                console.error("Failed to save assistant message.", error);
+              }
+            }
             controller.close();
             break;
           }
@@ -192,7 +259,13 @@ export async function POST(request: Request) {
         }
       } catch (error) {
         console.error("Failed while streaming Ollama response.", error);
-        controller.enqueue(encoder.encode("The local AI server is currently unavailable."));
+        const message = "The local AI server is currently unavailable.";
+        try {
+          saveMessage(conversationMeta.id, "assistant", message);
+        } catch (saveError) {
+          console.error("Failed to save assistant stream error message.", saveError);
+        }
+        controller.enqueue(encoder.encode(message));
         controller.close();
       } finally {
         reader.releaseLock();
@@ -204,6 +277,7 @@ export async function POST(request: Request) {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "no-store",
+      "X-Conversation-Id": conversationMeta.id,
     },
   });
 }

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 import { Section } from "@/components/Section";
 import { Card } from "@/components/Card";
@@ -7,7 +6,7 @@ import { awards, memberships, patents } from "@/data/recognition";
 export const metadata: Metadata = {
   title: "Awards, Memberships & Patents — Ali Awdeh",
   description:
-    "International awards, IFIA membership, and patents with images and verification.",
+    "International invention awards, IFIA membership, patents, and the practical R&D background behind Ali Awdeh's AI and backend engineering work.",
 };
 
 function Gallery({ images, alt }: { images?: string[]; alt: string }) {
@@ -33,10 +32,19 @@ function Gallery({ images, alt }: { images?: string[]; alt: string }) {
 export default function AwardsPage() {
   return (
     <>
+      <section className="container pt-14 pb-4">
+        <div className="max-w-3xl">
+          <h1 className="text-3xl font-bold">Awards, Memberships & Patents</h1>
+          <p className="p-dim mt-4 leading-relaxed">
+            My invention background shaped how I approach software and AI systems: prototype quickly, validate practically, communicate clearly, and design around real-world constraints.
+          </p>
+        </div>
+      </section>
+
       {/* Awards */}
       <Section
         title="Awards"
-        subtitle="International recognition with image evidence"
+        subtitle="International recognition that supports practical R&D, technical communication, and execution."
       >
         <div className="grid md:grid-cols-2 gap-6">
           {awards.map((a) => (
@@ -63,7 +71,7 @@ export default function AwardsPage() {
       </Section>
 
       {/* Memberships */}
-      <Section title="Memberships" subtitle="Professional affiliations & verification">
+      <Section title="Memberships" subtitle="Professional affiliations and verification.">
         <div className="grid md:grid-cols-2 gap-6">
           {memberships.map((m) => (
             <Card key={m.title}>
@@ -97,7 +105,7 @@ export default function AwardsPage() {
       </Section>
 
       {/* Patents */}
-      <Section title="Patents" subtitle="Inventions and IP (images + PDF)">
+      <Section title="Patents" subtitle="Inventions and IP connected to prototyping, control systems, and practical constraints.">
         <div className="grid md:grid-cols-2 gap-6">
           {patents.map((p) => (
             <Card key={p.title}>

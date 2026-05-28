@@ -4,17 +4,19 @@ import { motion, type HTMLMotionProps } from "framer-motion";
 
 type CardProps = HTMLMotionProps<"div"> & {
   children: React.ReactNode;
+  className?: string;
 };
 
 export function Card({ children, className, ...rest }: CardProps) {
+  const MotionDiv = motion.div as React.FC<CardProps>;
   return (
-    <motion.div
+    <MotionDiv
       whileHover={{ y: -3 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className={`card p-6 ${className ?? ""}`}
       {...rest}
     >
       {children}
-    </motion.div>
+    </MotionDiv>
   );
 }

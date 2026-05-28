@@ -49,7 +49,7 @@ export const awards = [
     title: "Silver Medal — IIFME International Invention Fair of the Middle East",
     org: "Kuwait Science Club (IIFME)",
     location: "Kuwait City, Kuwait",
-    blurb: "Silver Medal for the Magnetic Gun (M-Gun).",
+    blurb: "Silver Medal for the Magnetic Propulsion Prototype / M-Gun.",
     images: ["/images/iifme_2017.jpg"],
     professionalImpact:
       "Built confidence demoing hardware to non-technical audiences.",
@@ -69,7 +69,7 @@ export const awards = [
     title: "Bronze Prize — Seoul International Invention Fair",
     org: "KIPA",
     location: "Seoul, South Korea",
-    blurb: "Bronze Prize for the Magnetic Coil Gun.",
+    blurb: "Bronze Prize for the magnetic propulsion prototype.",
     images: ["/images/seoul_2016_bronze.jpg"],
     professionalImpact:
       "Exposure to Asian evaluation standards (safety + novelty).",
@@ -79,7 +79,7 @@ export const awards = [
     title: "German Special Prize — SIIF",
     org: "KIT-HAG Invention Association, Germany",
     location: "Seoul, South Korea",
-    blurb: "German Special Prize for innovative invention (M-Gun).",
+    blurb: "German Special Prize for the Magnetic Propulsion Prototype / M-Gun.",
     images: ["/images/seoul_2016_germany.jpg"],
     professionalImpact:
       "Learned to tailor demos for different juries and criteria.",
@@ -89,7 +89,7 @@ export const awards = [
     title: "National Science Fair — Participation (Lebanon)",
     org: "CNRS / Mobarat El Oloum",
     location: "Beirut, Lebanon",
-    blurb: "Participation certificate and medal for M-Gun prototype.",
+    blurb: "Participation certificate and medal for the M-Gun prototype.",
     images: ["/images/NASR.jpg"],
     professionalImpact:
       "First public showcase; drove rapid iteration and clear docs.",
@@ -122,7 +122,7 @@ export const patents = [
   },
   {
     year: 2017,
-    title: "Magnetic Gun (M-Gun) LB11089",
+    title: "Magnetic Propulsion Prototype / M-Gun LB11089",
     blurb:
       "Magnetic propulsion prototype for controlled, non-combustion launching.",
     images: ["/images/patent_mgun.jpg"],

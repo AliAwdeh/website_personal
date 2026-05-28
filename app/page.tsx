@@ -1,227 +1,323 @@
-import Head from "next/head";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { Card } from "@/components/Card";
 import { Badge } from "@/components/Badge";
 
+export const metadata: Metadata = {
+  title: "Ali Awdeh - AI & Backend Software Engineer",
+  description:
+    "Ali Awdeh is an AI and Backend Software Engineer focused on LLM assistants, workflow automation, backend integrations, process improvement, and production-ready AI systems.",
+  openGraph: {
+    title: "Ali Awdeh - AI & Backend Software Engineer",
+    description:
+      "Practical AI systems, backend integrations, workflow automation, LLM evaluation, and process improvement.",
+    url: "https://aliawdeh.com",
+    type: "website",
+  },
+  alternates: { canonical: "https://aliawdeh.com" },
+};
+
+const operationsCards = [
+  {
+    title: "LLM Assistants & Tool-Use Logic",
+    text: "Designing assistant flows, tool policies, and step-aware behavior for production workflows.",
+  },
+  {
+    title: "Evaluation & Quality Control",
+    text: "Creating evaluator logic, JSON rubrics, QA workflows, and failure-detection systems for missed tool calls, wrong actions, and policy violations.",
+  },
+  {
+    title: "Workflow Automation",
+    text: "Building n8n workflows, backend integrations, reporting systems, and operational alerts.",
+  },
+  {
+    title: "Product & Process Improvement",
+    text: "Turning messy manual processes into structured, measurable, AI-assisted workflows.",
+  },
+];
+
+const services = [
+  {
+    title: "AI Systems & Automation",
+    text: "LLM assistants, workflow automation, tool-calling logic, process digitization, and operational AI systems.",
+    skills: ["LLMs", "n8n", "Automation", "Tool Use"],
+  },
+  {
+    title: "LLM Evaluation & Guardrails",
+    text: "Evaluator logic, scoring rubrics, conversation QA, tool-use validation, workflow guardrails, and production reliability logic.",
+    skills: ["Evaluation", "JSON Rubrics", "QA", "Guardrails"],
+  },
+  {
+    title: "Backend & Integration Engineering",
+    text: "APIs, databases, authentication, microservices, ERP/tool integrations, custom services, and reliable backend systems.",
+    skills: ["APIs", "Databases", "Auth", "Microservices"],
+  },
+  {
+    title: "Product & Process Engineering",
+    text: "Mapping business processes, reducing manual work, improving operational flows, and translating business needs into technical systems.",
+    skills: ["Product", "Processes", "Reporting", "Operations"],
+  },
+];
+
+const bestFitRoles = [
+  "AI Software Engineer",
+  "Backend Software Engineer",
+  "AI Product Engineer",
+  "Product-minded Software Engineer",
+  "Process Improvement Analyst",
+  "Automation Engineer",
+  "Backend / AI Systems Engineer",
+  "Technical Product Engineer",
+];
+
 export default function Page() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Ali Awdeh",
+    url: "https://aliawdeh.com",
+    sameAs: [
+      "https://www.linkedin.com/in/AliAwdeh",
+      "https://github.com/aliawdeh",
+    ],
+    jobTitle: "AI and Backend Software Engineer",
+    knowsAbout: [
+      "AI Software Engineering",
+      "Backend Software Engineering",
+      "LLM Assistants",
+      "Workflow Automation",
+      "LLM Evaluation",
+      "Process Improvement",
+      "Backend Integrations",
+      "Product Engineering",
+    ],
+    award: [
+      "Geneva International Exhibition of Inventions - Gold",
+      "IIFME - Gold",
+      "iENA - Silver",
+    ],
+    memberOf: "IFIA",
+  };
+
   return (
     <div>
-      <Head>
-        <title>Ali Awdeh – Inventor, Innovator, Software & Product Engineer</title>
-        <meta
-          name="description"
-          content="Inventor & Innovator with 2 patents and 9 global awards. Software & Product Engineer specializing in backend architecture, scalable APIs, and AI/ML systems. IFIA member. Available for consulting and advisory."
-        />
-        <meta property="og:title" content="Ali Awdeh – Inventor & Software Engineer" />
-        <meta
-          property="og:description"
-          content="Award‑winning inventor and engineer (2 patents, 9 global awards). Backend, AI/ML, and product engineering. Consulting & advisory."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://aliawdeh.com" />
-        <meta property="og:image" content="/og/ali-awdeh-og.jpg" />
-        <script
-          type="application/ld+json"
-          // Person + Offer JSON‑LD for better rich results
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Ali Awdeh",
-              url: "https://aliawdeh.com",
-              sameAs: [
-                "https://www.linkedin.com/in/AliAwdeh",
-                "https://github.com/aliawdeh"
-              ],
-              jobTitle: "Inventor, Software & Product Engineer, Technical Advisor",
-              knowsAbout: [
-                "Backend Development",
-                "System Architecture",
-                "Machine Learning",
-                "LLMs",
-                "Blockchain",
-                "Product Engineering"
-              ],
-              award: [
-                "Geneva International Exhibition of Inventions – Gold",
-                "IIFME – Gold",
-                "IENA – Gold"
-              ],
-              memberOf: "IFIA"
-            })
-          }}
-        />
-      </Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-      {/* ===== HERO / INTRO ===== */}
-      <section className="container pt-20 pb-12">
-        <div className="grid md:grid-cols-2 gap-10 items-center">
-          {/* Left Side - Intro */}
+      <section className="container pt-14 pb-10 sm:pt-20 sm:pb-12">
+        <div className="grid gap-8 md:grid-cols-[1.15fr_0.85fr] md:items-center lg:gap-10">
           <div>
-            <h1 className="text-5xl font-bold leading-tight">
-              Ali Awdeh —{" "}
-              <span className="bg-gradient-to-r from-brand-accent to-brand-accent2 bg-clip-text text-transparent">
-                Inventor & Innovator · Software & Product Engineer · Technical Advisor
-              </span>
+            <p className="text-sm font-medium uppercase tracking-[0.18em] text-brand-accent2">
+              AI & Backend Software Engineer
+            </p>
+            <h1 className="mt-3 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+              Ali Awdeh
             </h1>
-
-            <p className="text-brand-dim mt-5 text-lg leading-relaxed">
-              I build practical, reliable technology that scales: <strong>backend architecture, APIs, and AI/ML systems</strong>.
-              <br className="hidden md:block" />
-              <span className="inline-block mt-2">Holder of <strong>2 patents</strong> and <strong>9 international innovation medals</strong> (incl. Geneva Gold). <strong>IFIA member.</strong></span>
+            <p className="mt-3 text-2xl font-semibold text-brand-fg sm:text-3xl">
+              Automation & Process Improvement
             </p>
 
-            {/* Action Buttons */}
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/contact" className="btn btn-accent" aria-label="Hire Ali – contact page">
-                Hire / Consult
-              </Link>
-              <a href="/Ali_Awdeh_CV.pdf" className="btn" download rel="noopener" aria-label="Download CV PDF">
-                Download CV
-              </a>
-              <Link href="/projects" className="btn" aria-label="View projects">
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-brand-dim">
+              I design and deploy AI systems, backend integrations, and automation workflows that improve real business operations.
+            </p>
+            <p className="mt-4 max-w-2xl leading-relaxed text-brand-dim">
+              I work across LLM assistants, evaluator logic, backend APIs, workflow orchestration, reporting systems, and process improvement - combining engineering depth with practical business impact.
+            </p>
+
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Link href="/projects" className="btn btn-accent">
                 View Projects
+              </Link>
+              <Link href="/experience" className="btn">
+                View Experience
+              </Link>
+              <Link href="/contact" className="btn">
+                Contact Me
               </Link>
             </div>
 
-            {/* Highlighted Skills */}
             <div className="mt-6 flex flex-wrap gap-2">
-              <Badge>Backend Development</Badge>
-              <Badge>System Architecture</Badge>
-              <Badge>Machine Learning</Badge>
-              <Badge>LLMs</Badge>
+              <Badge>LLM Assistants</Badge>
+              <Badge>Backend APIs</Badge>
+              <Badge>Workflow Automation</Badge>
+              <Badge>LLM Evaluation</Badge>
+              <Badge>Process Improvement</Badge>
+              <Badge>n8n</Badge>
+              <Badge>Snowflake SQL</Badge>
+              <Badge>Python</Badge>
+              <Badge>FastAPI</Badge>
               <Badge>Java</Badge>
               <Badge>Spring Boot</Badge>
               <Badge>TypeScript</Badge>
-              <Badge>Node.js</Badge>
-              <Badge>Python</Badge>
-              <Badge>TensorFlow</Badge>
-              <Badge>PyTorch</Badge>
-              <Badge>AWS</Badge>
-              <Badge>Docker</Badge>
-              <Badge>Nginx</Badge>
-              <Badge>Product Engineering</Badge>
-            </div>
-
-            {/* Trust bar */}
-            <div className="mt-6 flex flex-wrap gap-2 items-center">
-              <Badge>Geneva Gold (2018, 2023)</Badge>
-              <Badge>IIFME Gold (2023)</Badge>
-              <Badge>IENA Gold (2022)</Badge>
-              <Badge>IFIA Member</Badge>
             </div>
           </div>
 
-          {/* Right Side - Highlights Card */}
-          <div className="card p-8">
-            <h3 className="font-medium mb-4 text-lg">Career Highlights</h3>
-            <div className="grid grid-cols-3 gap-4 text-center">
+          <div className="card p-6 sm:p-8">
+            <h2 className="text-lg font-medium">Engineering Profile</h2>
+            <div className="mt-5 grid grid-cols-3 gap-3 text-center sm:gap-4">
               <div>
                 <div className="text-3xl font-bold">2</div>
-                <div className="p-dim text-sm mt-1">Patents</div>
+                <div className="p-dim mt-1 text-xs sm:text-sm">Patents</div>
               </div>
               <div>
                 <div className="text-3xl font-bold">9</div>
-                <div className="p-dim text-sm mt-1">International Medals</div>
+                <div className="p-dim mt-1 text-xs sm:text-sm">International Awards</div>
               </div>
               <div>
-                <div className="text-3xl font-bold">10k+</div>
-                <div className="p-dim text-sm mt-1">Records Processed</div>
+                <div className="text-3xl font-bold">AI</div>
+                <div className="p-dim mt-1 text-xs sm:text-sm">Operations Focus</div>
               </div>
             </div>
 
-            <div className="mt-6 border-t pt-6 space-y-3 text-sm">
-              <p>Built AI tools that reduced manual analysis by <strong>60%</strong>.</p>
-              <p>Training Management System: cut reporting time by <strong>40%</strong>.</p>
-              <p>Engineered LLM library to automate validation (testing time ↓ <strong>70%</strong>).</p>
+            <div className="mt-6 space-y-3 border-t border-white/10 pt-6 text-sm leading-relaxed text-brand-dim">
+              <p>
+                Current work focuses on production AI assistants, evaluator logic, workflow automation, backend integrations, and operational reporting.
+              </p>
+              <p>
+                Invention and award background adds a practical R&D mindset: prototype quickly, validate with evidence, and explain complex systems clearly.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ===== SERVICES / WHAT I DO ===== */}
-      <Section title="Consulting & Services" subtitle="Hands‑on engineering with product thinking.">
-        <div className="grid md:grid-cols-4 gap-6">
-          <Card>
-            <h4 className="font-semibold text-lg">Backend Engineering</h4>
-            <p className="p-dim mt-2">Scalable APIs, databases, microservices, reliability and performance tuning.</p>
-            <div className="mt-3 flex gap-2 flex-wrap"><Badge>Java</Badge><Badge>Spring Boot</Badge><Badge>Node.js</Badge><Badge>SQL</Badge></div>
-          </Card>
-          <Card>
-            <h4 className="font-semibold text-lg">AI/ML Systems</h4>
-            <p className="p-dim mt-2">Model training, LLM pipelines, inference services, data engineering.</p>
-            <div className="mt-3 flex gap-2 flex-wrap"><Badge>TensorFlow</Badge><Badge>PyTorch</Badge><Badge>LLMs</Badge></div>
-          </Card>
-          <Card>
-            <h4 className="font-semibold text-lg">Product Engineering</h4>
-            <p className="p-dim mt-2">From prototype to production: roadmap, architecture, iteration speed.</p>
-            <div className="mt-3 flex gap-2 flex-wrap"><Badge>Design‑to‑Delivery</Badge><Badge>APIs</Badge><Badge>CI/CD</Badge></div>
-          </Card>
-          <Card>
-            <h4 className="font-semibold text-lg">Technical Advisory</h4>
-            <p className="p-dim mt-2">Architecture reviews, innovation strategy, R&D guidance, fractional CTO.</p>
-            <div className="mt-3 flex gap-2 flex-wrap"><Badge>Consulting</Badge><Badge>Security</Badge><Badge>Scalability</Badge></div>
-          </Card>
+      <Section
+        title="Building AI Systems for Real Operations"
+        subtitle="Practical systems work across assistants, automation, evaluation, backend integrations, and process improvement."
+      >
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {operationsCards.map((item) => (
+            <Card key={item.title}>
+              <h3 className="text-lg font-semibold">{item.title}</h3>
+              <p className="p-dim mt-2 leading-relaxed">{item.text}</p>
+            </Card>
+          ))}
         </div>
-        <div className="mt-6"><Link className="btn btn-accent" href="/contact">Start a project</Link></div>
       </Section>
 
-      {/* ===== FEATURED PROJECTS ===== */}
+      <Section title="What I Do" subtitle="Engineering work that connects product logic, backend systems, and operational outcomes.">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {services.map((service) => (
+            <Card key={service.title}>
+              <h3 className="text-lg font-semibold">{service.title}</h3>
+              <p className="p-dim mt-2 leading-relaxed">{service.text}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {service.skills.map((skill) => (
+                  <Badge key={skill}>{skill}</Badge>
+                ))}
+              </div>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
       <Section
         title="Featured Projects"
-        subtitle="Selected work in backend engineering, AI/ML, and high‑performance systems."
+        subtitle="Case-study-style work in AI automation, LLM evaluation, backend systems, and local AI infrastructure."
       >
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid gap-6 md:grid-cols-3">
           <Card>
-            <h4 className="font-semibold text-lg">AI‑Driven Trading Bots</h4>
-            <p className="p-dim mt-2">Real‑time forex bots powered by ML, reducing manual analysis by <strong>60%</strong>.</p>
-            <div className="mt-3 flex gap-2 flex-wrap"><Badge>Python</Badge><Badge>TensorFlow</Badge><Badge>Node.js</Badge><Badge>Docker</Badge><Badge>MySQL</Badge></div>
+            <h3 className="text-lg font-semibold">AI Recruitment Assistant & Workflow Automation</h3>
+            <p className="p-dim mt-2 leading-relaxed">
+              AI-assisted WhatsApp workflow logic for applicant guidance, document collection, routing, date handling, and process follow-up.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Badge>LLMs</Badge>
+              <Badge>n8n</Badge>
+              <Badge>Snowflake SQL</Badge>
+              <Badge>Evaluator Logic</Badge>
+            </div>
           </Card>
           <Card>
-            <h4 className="font-semibold text-lg">Training Management System</h4>
-            <p className="p-dim mt-2">Backend for courses/trainees; cut reporting time by <strong>40%</strong> and handled <strong>10k+ records</strong> with zero downtime.</p>
-            <div className="mt-3 flex gap-2 flex-wrap"><Badge>Java</Badge><Badge>Spring Boot</Badge><Badge>REST</Badge><Badge>PostgreSQL</Badge></div>
+            <h3 className="text-lg font-semibold">LLM Evaluation & Guardrail System</h3>
+            <p className="p-dim mt-2 leading-relaxed">
+              JSON-based evaluator rubrics and QA workflows for missed tools, wrong actions, invalid states, and policy violations.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Badge>LLM Evaluation</Badge>
+              <Badge>Guardrails</Badge>
+              <Badge>QA</Badge>
+              <Badge>JSON Schemas</Badge>
+            </div>
           </Card>
           <Card>
-            <h4 className="font-semibold text-lg">LLM Training & Inference Pipeline</h4>
-            <p className="p-dim mt-2">Scalable infrastructure for training, optimizing, and deploying ML/LLM models with GPU acceleration and low‑latency APIs.</p>
-            <div className="mt-3 flex gap-2 flex-wrap"><Badge>Python</Badge><Badge>PyTorch</Badge><Badge>Docker</Badge><Badge>Kubernetes</Badge><Badge>GPU</Badge></div>
+            <h3 className="text-lg font-semibold">Agent Forge - Local LLM Fine-Tuning Platform</h3>
+            <p className="p-dim mt-2 leading-relaxed">
+              Local platform for dataset upload, field mapping, LoRA fine-tuning, adapter testing, and evaluation.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Badge>Python</Badge>
+              <Badge>FastAPI</Badge>
+              <Badge>MLX-LoRA</Badge>
+              <Badge>Gemma</Badge>
+            </div>
           </Card>
+        </div>
+        <div className="mt-6">
+          <Link className="btn btn-accent" href="/projects">
+            View All Projects
+          </Link>
         </div>
       </Section>
 
-      {/* ===== PATENTS & AWARDS ===== */}
-      <Section title="Patents & Awards" subtitle="Innovation with measurable outcomes.">
-        <div className="grid md:grid-cols-2 gap-6">
-          <Card>
-            <h4 className="font-semibold text-lg">Patents</h4>
-            <ul className="p-dim mt-3 list-disc ml-6 space-y-2">
-              <li>Smart Wind Controller — extends turbine lifespan; ML anticipates wind changes from sensor data.</li>
-              <li>Magnetic Gun (2017).</li>
-            </ul>
-          </Card>
-          <Card>
-            <h4 className="font-semibold text-lg">Awards</h4>
-            <ul className="p-dim mt-3 list-disc ml-6 space-y-2">
-              <li>Geneva International Exhibition of Inventions — Gold (2018, 2023)</li>
-              <li>IIFME — Gold (2023)</li>
-              <li>IENA — Gold (2022)</li>
-            </ul>
-          </Card>
-        </div>
-      </Section>
-
-      {/* ===== CTA ===== */}
-      <section className="container py-12">
-        <div className="card p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div>
-            <h3 className="text-2xl font-bold">Let’s build something reliable and smart.</h3>
-            <p className="p-dim mt-1">Available for software/product engineering, consulting, and technical advisory.</p>
+      <Section title="Best Fit Roles" subtitle="Roles where AI, automation, backend systems, and product thinking improve real operational workflows.">
+        <div className="card p-6 sm:p-8">
+          <p className="max-w-3xl leading-relaxed text-brand-dim">
+            I am especially interested in teams that need someone who can connect operations, product logic, AI systems, backend integrations, and engineering execution.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {bestFitRoles.map((role) => (
+              <Badge key={role}>{role}</Badge>
+            ))}
           </div>
-          <div className="flex gap-3">
-            <Link href="/contact" className="btn btn-accent">Contact</Link>
-            <a href="/Ali_Awdeh_CV.pdf" className="btn" download>Download CV</a>
+        </div>
+      </Section>
+
+      <Section title="Patents & Awards" subtitle="Secondary credibility from invention, prototyping, and international evaluation.">
+        <div className="grid gap-6 md:grid-cols-2">
+          <Card>
+            <h3 className="text-lg font-semibold">Invention Background</h3>
+            <p className="p-dim mt-2 leading-relaxed">
+              My invention background shaped how I approach software and AI systems: prototype quickly, validate practically, communicate clearly, and design around real-world constraints.
+            </p>
+            <ul className="p-dim mt-4 list-disc space-y-2 pl-5">
+              <li>Smart Wind Controller - patented control-system concept for turbine reliability.</li>
+              <li>Magnetic Propulsion Prototype / M-Gun - patented hardware prototype.</li>
+            </ul>
+          </Card>
+          <Card>
+            <h3 className="text-lg font-semibold">International Recognition</h3>
+            <p className="p-dim mt-2 leading-relaxed">
+              9 international awards and IFIA membership, including Geneva Gold recognition, support a practical track record in technical communication, R&D, and execution.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Badge>Geneva Gold</Badge>
+              <Badge>IIFME Gold</Badge>
+              <Badge>iENA</Badge>
+              <Badge>IFIA Member</Badge>
+            </div>
+          </Card>
+        </div>
+      </Section>
+
+      <section className="container py-12">
+        <div className="card flex flex-col gap-6 p-6 sm:p-8 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-2xl font-bold">Looking for practical AI and backend execution?</h2>
+            <p className="p-dim mt-2 max-w-2xl">
+              Available for AI engineering, backend software engineering, automation, product-engineering, and process-improvement opportunities.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link href="/contact" className="btn btn-accent">
+              Contact Me
+            </Link>
+            <a href="/Ali_Awdeh_CV.pdf" className="btn" download>
+              Download CV
+            </a>
           </div>
         </div>
       </section>

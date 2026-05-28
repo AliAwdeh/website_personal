@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, KeyboardEvent, useMemo, useRef, useState } from "react";
+import { FormEvent, KeyboardEvent, ReactNode, useMemo, useRef, useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 
 type ChatMessage = {
@@ -14,6 +14,42 @@ const MAX_HISTORY_MESSAGES = 10;
 
 function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
+function renderLinkedText(text: string): ReactNode[] {
+  const pattern = /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)|(https?:\/\/[^\s)]+)/g;
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(text.slice(lastIndex, match.index));
+    }
+
+    const label = match[1] ?? match[3];
+    const href = match[2] ?? match[3];
+
+    nodes.push(
+      <a
+        key={`${href}-${match.index}`}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-brand-accent2 underline underline-offset-4 hover:opacity-90"
+      >
+        {label}
+      </a>,
+    );
+
+    lastIndex = pattern.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(text.slice(lastIndex));
+  }
+
+  return nodes;
 }
 
 export function ChatWidget() {
@@ -177,7 +213,7 @@ export function ChatWidget() {
                       : "border border-white/10 bg-white/5 text-brand-dim"
                   }`}
                 >
-                  {message.content || (isStreaming ? "Thinking..." : "")}
+                  {message.content ? renderLinkedText(message.content) : (isStreaming ? "Thinking..." : "")}
                 </div>
               </div>
             ))}

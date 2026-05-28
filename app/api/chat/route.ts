@@ -36,7 +36,13 @@ function cleanMessages(value: unknown): ChatMessage[] {
 
 async function loadSystemPrompt() {
   const promptPath = path.join(process.cwd(), "prompts", "website-assistant.md");
-  return readFile(promptPath, "utf8");
+  const infoPath = path.join(process.cwd(), "prompts", "ali-info.md");
+  const [assistantPrompt, aliInfo] = await Promise.all([
+    readFile(promptPath, "utf8"),
+    readFile(infoPath, "utf8"),
+  ]);
+
+  return `${assistantPrompt}\n\n${aliInfo}`;
 }
 
 function friendlyError(message: string, status = 503) {

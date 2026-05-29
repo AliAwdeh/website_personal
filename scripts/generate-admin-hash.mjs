@@ -10,6 +10,9 @@ if (!password) {
 
 const hash = await bcrypt.hash(password, 12);
 const secret = randomBytes(32).toString("base64url");
+const envSafeHash = hash.replaceAll("$", "\\$");
 
-console.log("ADMIN_PASSWORD_HASH=" + hash);
+console.log("ADMIN_PASSWORD_HASH=" + envSafeHash);
 console.log("ADMIN_SESSION_SECRET=" + secret);
+console.log("");
+console.log("Paste these values into .env.local, then restart the dev server.");

@@ -3,8 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   ADMIN_COOKIE_NAME,
   createAdminSessionToken,
+  getAdminPasswordHash,
   getAdminCookieOptions,
   isAdminConfigured,
+  isValidBcryptHash,
 } from "@/lib/admin/auth";
 import { detectVisitorIp } from "@/lib/admin/chat-log";
 
@@ -41,13 +43,24 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const passwordHash = getAdminPasswordHash();
+  if (!isValidBcryptHash(passwordHash)) {
+    return NextResponse.json(
+      {
+        error:
+          "Admin password hash is not a valid bcrypt hash. Regenerate it with npm run admin:hash -- your-password and paste the escaped value into .env.local.",
+      },
+      { status: 500 },
+    );
+  }
+
   if (isRateLimited(request)) {
     return NextResponse.json({ error: "Too many login attempts." }, { status: 429 });
   }
 
   const body = await request.json().catch(() => ({}));
   const password = typeof body.password === "string" ? body.password : "";
-  const ok = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH!);
+  const ok = await bcrypt.compare(password, passwordHash);
 
   if (!ok) {
     return NextResponse.json({ error: "Invalid password." }, { status: 401 });

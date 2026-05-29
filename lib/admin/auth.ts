@@ -21,12 +21,20 @@ function getSecret() {
   return process.env.ADMIN_SESSION_SECRET ?? "";
 }
 
+export function getAdminPasswordHash() {
+  return process.env.ADMIN_PASSWORD_HASH ?? "";
+}
+
+export function isValidBcryptHash(hash = getAdminPasswordHash()) {
+  return /^\$2[aby]\$\d{2}\$[./A-Za-z0-9]{53}$/.test(hash);
+}
+
 function sign(payload: string) {
   return createHmac("sha256", getSecret()).update(payload).digest("base64url");
 }
 
 export function isAdminConfigured() {
-  return Boolean(process.env.ADMIN_PASSWORD_HASH && getSecret().length >= 32);
+  return Boolean(getAdminPasswordHash() && getSecret().length >= 32);
 }
 
 export function createAdminSessionToken() {

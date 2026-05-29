@@ -22,6 +22,7 @@ type Conversation = {
   lead_reason: string | null;
   reviewed: number;
   archived: number;
+  message_count?: number;
   last_user_message?: string | null;
 };
 
@@ -34,6 +35,8 @@ type Message = {
 
 type Stats = {
   totalConversations: number;
+  visitorsWithoutChat: number | null;
+  chatConversations: number | null;
   highIntentLeads: number | null;
   unreviewed: number | null;
   lastConversationDate: string | null;
@@ -43,6 +46,8 @@ type Detail = {
   conversation: Conversation;
   messages: Message[];
 };
+
+type ConversationFilter = "all" | "chat" | "no_chat";
 
 function formatDate(value: string | null) {
   if (!value) return "None yet";
@@ -69,8 +74,18 @@ export function AdminDashboard() {
   const [error, setError] = useState("");
   const [stats, setStats] = useState<Stats | null>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [filter, setFilter] = useState<ConversationFilter>("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [detail, setDetail] = useState<Detail | null>(null);
+  const filteredConversations = useMemo(() => {
+    if (filter === "chat") {
+      return conversations.filter((item) => (item.message_count ?? 0) > 0);
+    }
+    if (filter === "no_chat") {
+      return conversations.filter((item) => (item.message_count ?? 0) === 0);
+    }
+    return conversations;
+  }, [conversations, filter]);
   const selectedConversation = useMemo(
     () => conversations.find((item) => item.id === selectedId) ?? null,
     [conversations, selectedId],
@@ -207,8 +222,16 @@ export function AdminDashboard() {
 
       <div className="grid gap-4 md:grid-cols-4">
         <div className="card p-5">
-          <p className="p-dim text-sm">Total conversations</p>
+          <p className="p-dim text-sm">Total visitors</p>
           <p className="mt-2 text-3xl font-bold">{stats?.totalConversations ?? 0}</p>
+        </div>
+        <div className="card p-5">
+          <p className="p-dim text-sm">Used chat</p>
+          <p className="mt-2 text-3xl font-bold">{stats?.chatConversations ?? 0}</p>
+        </div>
+        <div className="card p-5">
+          <p className="p-dim text-sm">No chat yet</p>
+          <p className="mt-2 text-3xl font-bold">{stats?.visitorsWithoutChat ?? 0}</p>
         </div>
         <div className="card p-5">
           <p className="p-dim text-sm">High-intent leads</p>
@@ -228,12 +251,32 @@ export function AdminDashboard() {
         <div className="card overflow-hidden">
           <div className="border-b border-white/10 p-4">
             <h2 className="font-semibold">Conversations</h2>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {[
+                ["all", "All"],
+                ["chat", "Used chat"],
+                ["no_chat", "No chat"],
+              ].map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setFilter(value as ConversationFilter)}
+                  className={`rounded-xl border px-3 py-1.5 text-xs ${
+                    filter === value
+                      ? "border-brand-accent bg-brand-accent/20 text-brand-fg"
+                      : "border-white/10 bg-white/5 text-brand-dim hover:bg-white/10"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
           </div>
           <div className="max-h-[720px] overflow-y-auto">
-            {conversations.length === 0 && (
-              <p className="p-dim p-4">No conversations yet.</p>
+            {filteredConversations.length === 0 && (
+              <p className="p-dim p-4">No matching visitors yet.</p>
             )}
-            {conversations.map((conversation) => (
+            {filteredConversations.map((conversation) => (
               <button
                 key={conversation.id}
                 type="button"
@@ -245,14 +288,17 @@ export function AdminDashboard() {
                 <div className="flex items-center justify-between gap-3">
                   <span className="text-sm">{formatDate(conversation.updated_at)}</span>
                   <span className="rounded-xl border border-white/10 px-2 py-1 text-xs">
-                    {conversation.lead_score}/10 {conversation.lead_type}
+                    {(conversation.message_count ?? 0) > 0
+                      ? `${conversation.lead_score}/10 ${conversation.lead_type}`
+                      : "No chat"}
                   </span>
                 </div>
                 <p className="p-dim mt-2 line-clamp-2 text-sm">
-                  {conversation.last_user_message ?? "No user message preview."}
+                  {conversation.last_user_message ?? conversation.page_url ?? "Visited website without using chat."}
                 </p>
                 <div className="p-dim mt-2 flex flex-wrap gap-2 text-xs">
                   <span>{conversation.reviewed ? "Reviewed" : "Unreviewed"}</span>
+                  <span>{(conversation.message_count ?? 0) > 0 ? `${conversation.message_count} messages` : "0 messages"}</span>
                   <span>{maskIp(conversation.visitor_ip)}</span>
                   <span>{[conversation.city, conversation.country_or_region].filter(Boolean).join(", ") || "Unknown location"}</span>
                 </div>
@@ -309,6 +355,11 @@ export function AdminDashboard() {
 
               <div className="mt-6 space-y-3">
                 <h3 className="font-semibold">Messages</h3>
+                {detail.messages.length === 0 && (
+                  <p className="p-dim rounded-2xl border border-white/10 bg-white/5 p-3 text-sm">
+                    This visitor has not used the chatbot yet.
+                  </p>
+                )}
                 {detail.messages.map((message) => (
                   <div
                     key={message.id}

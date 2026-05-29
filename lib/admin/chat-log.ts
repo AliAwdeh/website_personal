@@ -238,6 +238,10 @@ export function listConversations() {
     SELECT
       c.*,
       (
+        SELECT COUNT(*) FROM messages
+        WHERE conversation_id = c.id
+      ) AS message_count,
+      (
         SELECT content FROM messages
         WHERE conversation_id = c.id AND role = 'user'
         ORDER BY created_at DESC
@@ -247,7 +251,7 @@ export function listConversations() {
     WHERE archived = 0
     ORDER BY updated_at DESC
     LIMIT 200
-  `).all() as Array<ConversationRow & { last_user_message: string | null }>;
+  `).all() as Array<ConversationRow & { message_count: number; last_user_message: string | null }>;
 }
 
 export function getConversation(id: string) {
@@ -267,12 +271,20 @@ export function getConversationStats() {
   return getDb().prepare(`
     SELECT
       COUNT(*) AS totalConversations,
+      SUM(CASE WHEN archived = 0 AND NOT EXISTS (
+        SELECT 1 FROM messages WHERE conversation_id = conversations.id
+      ) THEN 1 ELSE 0 END) AS visitorsWithoutChat,
+      SUM(CASE WHEN archived = 0 AND EXISTS (
+        SELECT 1 FROM messages WHERE conversation_id = conversations.id
+      ) THEN 1 ELSE 0 END) AS chatConversations,
       SUM(CASE WHEN lead_score >= 8 AND archived = 0 THEN 1 ELSE 0 END) AS highIntentLeads,
       SUM(CASE WHEN reviewed = 0 AND archived = 0 THEN 1 ELSE 0 END) AS unreviewed,
       MAX(updated_at) AS lastConversationDate
     FROM conversations
   `).get() as {
     totalConversations: number;
+    visitorsWithoutChat: number | null;
+    chatConversations: number | null;
     highIntentLeads: number | null;
     unreviewed: number | null;
     lastConversationDate: string | null;

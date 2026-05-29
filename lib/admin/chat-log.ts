@@ -210,6 +210,22 @@ export function upsertConversation(meta: ConversationMeta, lead: LeadSignal) {
   );
 }
 
+export function getConversationSession(conversationId: string) {
+  return getDb()
+    .prepare("SELECT id, visitor_id FROM conversations WHERE id = ?")
+    .get(conversationId) as { id: string; visitor_id: string } | undefined;
+}
+
+export function getConversationMessagesForContext(conversationId: string) {
+  return getDb()
+    .prepare(`
+      SELECT role, content FROM messages
+      WHERE conversation_id = ?
+      ORDER BY created_at ASC
+    `)
+    .all(conversationId) as Array<{ role: "user" | "assistant"; content: string }>;
+}
+
 export function saveMessage(conversationId: string, role: "user" | "assistant", content: string) {
   getDb().prepare(`
     INSERT INTO messages (id, conversation_id, role, content, created_at)

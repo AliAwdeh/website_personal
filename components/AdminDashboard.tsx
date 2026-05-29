@@ -59,6 +59,10 @@ function maskIp(ip: string | null) {
   return parts.length === 4 ? `${parts[0]}.${parts[1]}.${parts[2]}.x` : ip;
 }
 
+function isSetupError(error: string) {
+  return error.toLowerCase().includes("admin auth is not configured");
+}
+
 export function AdminDashboard() {
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const [password, setPassword] = useState("");
@@ -167,7 +171,20 @@ export function AdminDashboard() {
             onChange={(event) => setPassword(event.target.value)}
             className="mt-2 min-h-11 w-full rounded-2xl border border-white/10 bg-white/5 px-3 outline-none focus:border-brand-accent"
           />
-          {error && <p className="mt-3 text-sm text-red-300">{error}</p>}
+          {error && (
+            <div className="mt-3 rounded-2xl border border-red-400/20 bg-red-500/10 p-3 text-sm text-red-100">
+              <p>{error}</p>
+              {isSetupError(error) && (
+                <div className="mt-3 space-y-2 text-red-100/80">
+                  <p>Generate local admin env values, then restart the dev server:</p>
+                  <code className="block break-words rounded-xl bg-black/30 p-2 text-xs">
+                    npm run admin:hash -- your-password
+                  </code>
+                  <p>Add the printed values to <span className="font-mono">.env.local</span>.</p>
+                </div>
+              )}
+            </div>
+          )}
           <button className="btn btn-accent mt-6 w-full" type="submit">
             Login
           </button>
@@ -272,6 +289,7 @@ export function AdminDashboard() {
                 {[
                   ["Started", formatDate(detail.conversation.started_at)],
                   ["Updated", formatDate(detail.conversation.updated_at)],
+                  ["Conversation ID", detail.conversation.id],
                   ["Visitor ID", detail.conversation.visitor_id],
                   ["IP", detail.conversation.visitor_ip || "Unknown"],
                   ["IP Hash", detail.conversation.visitor_ip_hash || "Unknown"],

@@ -3,6 +3,8 @@ import path from "node:path";
 import type { NextRequest } from "next/server";
 import {
   buildConversationMeta,
+  getConversationMessagesForContext,
+  getConversationSession,
   notifyLeadIfConfigured,
   saveMessage,
   scoreLead,
@@ -29,6 +31,7 @@ const OLLAMA_BASE_URL = (process.env.OLLAMA_BASE_URL ?? "http://192.168.0.133:11
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL ?? "mistral:7b-instruct";
 const MAX_MESSAGES = 10;
 const MAX_CONTENT_LENGTH = 2000;
+const MAX_SESSION_ID_LENGTH = 120;
 
 function cleanMessages(value: unknown): ChatMessage[] {
   if (!Array.isArray(value)) return [];
@@ -71,6 +74,35 @@ function friendlyError(message: string, status = 503) {
   });
 }
 
+function cleanSessionValue(value: unknown) {
+  return typeof value === "string" && value.trim()
+    ? value.trim().slice(0, MAX_SESSION_ID_LENGTH)
+    : undefined;
+}
+
+function getOwnedConversationId(conversationId?: string, visitorId?: string) {
+  if (!conversationId) return undefined;
+
+  try {
+    const existing = getConversationSession(conversationId);
+    if (!existing) return conversationId;
+    return visitorId && existing.visitor_id === visitorId ? conversationId : undefined;
+  } catch (error) {
+    console.error("Failed to verify chat conversation session.", error);
+    return undefined;
+  }
+}
+
+function cleanContextMessages(messages: ChatMessage[]) {
+  return messages
+    .filter((message) => message.role === "user" || message.role === "assistant")
+    .map((message) => ({
+      role: message.role,
+      content: message.content.trim().slice(0, MAX_CONTENT_LENGTH),
+    }))
+    .filter((message) => message.content.length > 0);
+}
+
 export async function POST(request: NextRequest) {
   let body: ChatRequestBody;
 
@@ -87,9 +119,12 @@ export async function POST(request: NextRequest) {
   }
 
   const latestUserMessage = [...messages].reverse().find((message) => message.role === "user");
+  const visitorId = cleanSessionValue(body.visitor_id);
+  const requestedConversationId = cleanSessionValue(body.conversation_id);
+  const conversationId = getOwnedConversationId(requestedConversationId, visitorId);
   const conversationMeta = buildConversationMeta(request, {
-    conversationId: typeof body.conversation_id === "string" ? body.conversation_id : undefined,
-    visitorId: typeof body.visitor_id === "string" ? body.visitor_id : undefined,
+    conversationId,
+    visitorId,
     pageUrl: typeof body.page_url === "string" ? body.page_url : undefined,
     referrer: typeof body.referrer === "string" ? body.referrer : undefined,
   });
@@ -103,6 +138,17 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error("Failed to save chat conversation.", error);
+  }
+
+  let contextMessages = messages;
+
+  try {
+    const savedMessages = cleanContextMessages(getConversationMessagesForContext(conversationMeta.id));
+    if (savedMessages.length) {
+      contextMessages = savedMessages;
+    }
+  } catch (error) {
+    console.error("Failed to load chat session history.", error);
   }
 
   let systemPrompt: string;
@@ -128,7 +174,7 @@ export async function POST(request: NextRequest) {
         stream: true,
         messages: [
           { role: "system", content: systemPrompt },
-          ...messages,
+          ...contextMessages,
         ],
         options: {
           temperature: 0.2,

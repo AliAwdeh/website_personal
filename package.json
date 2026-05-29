@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "admin:hash": "node scripts/generate-admin-hash.mjs",
     "lint": "next lint"
   },
   "dependencies": {

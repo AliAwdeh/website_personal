@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, KeyboardEvent, ReactNode, useMemo, useRef, useState } from "react";
+import { FormEvent, KeyboardEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 import { createBrowserId } from "@/lib/browser-id";
 
@@ -15,6 +15,7 @@ const MAX_HISTORY_MESSAGES = 10;
 const VISITOR_ID_KEY = "ali_chat_visitor_id";
 const CONVERSATION_ID_KEY = "ali_chat_conversation_id";
 const WHATSAPP_CHATBOT_URL = "https://wa.me/96171056438";
+const OPEN_WEBSITE_CHAT_EVENT = "ali-open-website-chat";
 
 function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -79,6 +80,13 @@ export function ChatWidget() {
   const endRef = useRef<HTMLDivElement>(null);
 
   const canSend = useMemo(() => input.trim().length > 0 && !isStreaming, [input, isStreaming]);
+
+  useEffect(() => {
+    const openChat = () => setIsOpen(true);
+
+    window.addEventListener(OPEN_WEBSITE_CHAT_EVENT, openChat);
+    return () => window.removeEventListener(OPEN_WEBSITE_CHAT_EVENT, openChat);
+  }, []);
 
   const scrollToEnd = () => {
     requestAnimationFrame(() => {

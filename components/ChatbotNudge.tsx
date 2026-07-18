@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowDownRight, MessageCircle, X } from "lucide-react";
+import { ArrowDownRight, MessageCircle, Send, X } from "lucide-react";
 
 const DISMISSED_KEY = "ali_chatbot_nudge_dismissed";
 const WHATSAPP_CHATBOT_URL = "https://wa.me/96171056438";
+const OPEN_WEBSITE_CHAT_EVENT = "ali-open-website-chat";
 
 export function ChatbotNudge() {
   const [isVisible, setIsVisible] = useState(false);
@@ -21,6 +22,11 @@ export function ChatbotNudge() {
   const dismiss = () => {
     window.sessionStorage.setItem(DISMISSED_KEY, "true");
     setIsVisible(false);
+  };
+
+  const openWebsiteChat = () => {
+    window.dispatchEvent(new Event(OPEN_WEBSITE_CHAT_EVENT));
+    dismiss();
   };
 
   return (
@@ -40,24 +46,37 @@ export function ChatbotNudge() {
             <MessageCircle className="h-5 w-5" />
           </div>
           <div>
-            <p className="text-sm font-semibold">Try Ali's WhatsApp chatbot</p>
+            <p className="text-sm font-semibold">Try Ali's chatbot</p>
             <p className="mt-1 text-sm leading-relaxed text-brand-dim">
-              Ask about AI chatbots, machine learning, backend automation, projects, or hiring.
+              Ask on WhatsApp, or chat here on the website about AI, automation, projects, or hiring.
             </p>
           </div>
         </div>
 
-        <div className="mt-4 flex items-center justify-between gap-3">
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
           <a
             href={WHATSAPP_CHATBOT_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-accent min-h-10 flex-1 rounded-2xl text-sm"
+            className="btn btn-accent min-h-10 rounded-2xl text-sm"
             onClick={dismiss}
           >
-            Open WhatsApp Chatbot
+            <Send className="h-4 w-4" />
+            WhatsApp
           </a>
-          <ArrowDownRight className="h-7 w-7 shrink-0 text-brand-accent2" aria-hidden="true" />
+          <button
+            type="button"
+            className="btn min-h-10 rounded-2xl text-sm"
+            onClick={openWebsiteChat}
+          >
+            <MessageCircle className="h-4 w-4" />
+            Chat Here
+          </button>
+        </div>
+
+        <div className="mt-3 flex items-center justify-end gap-2 text-xs text-brand-dim">
+          <span>Website chat is below</span>
+          <ArrowDownRight className="h-5 w-5 text-brand-accent2" aria-hidden="true" />
         </div>
 
         <div className="absolute -bottom-2 right-8 h-4 w-4 rotate-45 border-b border-r border-brand-accent/50 bg-brand-card/95" />

@@ -2,6 +2,7 @@
 
 import { FormEvent, KeyboardEvent, ReactNode, useMemo, useRef, useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
+import { createBrowserId } from "@/lib/browser-id";
 
 type ChatMessage = {
   id: string;
@@ -23,7 +24,7 @@ function getStoredId(key: string, prefix: string) {
   const existing = window.localStorage.getItem(key);
   if (existing) return existing;
 
-  const id = `${prefix}_${crypto.randomUUID()}`;
+  const id = createBrowserId(prefix);
   window.localStorage.setItem(key, id);
   return id;
 }

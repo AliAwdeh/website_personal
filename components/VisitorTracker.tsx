@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { createBrowserId } from "@/lib/browser-id";
 
 const VISITOR_ID_KEY = "ali_chat_visitor_id";
 const CONVERSATION_ID_KEY = "ali_chat_conversation_id";
@@ -10,7 +11,7 @@ function getStoredId(key: string, prefix: string) {
   const existing = window.localStorage.getItem(key);
   if (existing) return existing;
 
-  const id = `${prefix}_${crypto.randomUUID()}`;
+  const id = createBrowserId(prefix);
   window.localStorage.setItem(key, id);
   return id;
 }

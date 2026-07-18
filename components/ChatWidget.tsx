@@ -13,6 +13,7 @@ const MAX_INPUT_LENGTH = 2000;
 const MAX_HISTORY_MESSAGES = 10;
 const VISITOR_ID_KEY = "ali_chat_visitor_id";
 const CONVERSATION_ID_KEY = "ali_chat_conversation_id";
+const WHATSAPP_CHATBOT_URL = "https://wa.me/96171056438";
 
 function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -69,7 +70,7 @@ export function ChatWidget() {
     {
       id: "welcome",
       role: "assistant",
-      content: "Hi, I can answer quick questions about Ali's AI, backend, automation, projects, and experience.",
+      content: "Hi, I can answer quick questions about Ali's AI, backend, automation, projects, and experience. For the active WhatsApp chatbot, try [Ali's WhatsApp chatbot](https://wa.me/96171056438).",
     },
   ]);
   const [input, setInput] = useState("");
@@ -209,7 +210,7 @@ export function ChatWidget() {
           <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
             <div>
               <h2 className="font-semibold">Ask Ali's AI</h2>
-              <p className="text-xs text-brand-dim">Local Ollama test assistant</p>
+              <p className="text-xs text-brand-dim">Portfolio assistant</p>
             </div>
             <button
               type="button"
@@ -242,6 +243,14 @@ export function ChatWidget() {
           </div>
 
           <form onSubmit={handleSubmit} className="border-t border-white/10 p-3">
+            <a
+              href={WHATSAPP_CHATBOT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mb-3 flex min-h-10 items-center justify-center rounded-2xl border border-brand-accent bg-brand-accent/10 px-3 py-2 text-sm font-medium hover:bg-brand-accent/20"
+            >
+              Try the WhatsApp chatbot
+            </a>
             <label className="sr-only" htmlFor="chat-message">
               Message for Ali's AI
             </label>

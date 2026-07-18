@@ -5,9 +5,26 @@ import { Card } from "@/components/Card";
 import { Badge } from "@/components/Badge";
 
 export const metadata: Metadata = {
-  title: "Experience - Ali Awdeh",
+  title: "Experience in AI Chatbots, Machine Learning & Backend Automation",
   description:
-    "Experience in AI automation, backend integrations, LLM evaluation, workflow automation, reporting, product engineering, and process improvement.",
+    "Ali Awdeh's experience in AI chatbots, WhatsApp assistant workflows, machine learning systems, backend integrations, LLM evaluation, workflow automation, reporting, product engineering, and process improvement in Beirut, Lebanon.",
+  keywords: [
+    "AI chatbot experience Lebanon",
+    "machine learning engineer Beirut",
+    "WhatsApp assistant workflows",
+    "LLM evaluation experience",
+    "backend engineer Lebanon",
+    "AI automation experience",
+    "Ali Awdeh experience"
+  ],
+  openGraph: {
+    title: "Experience in AI Chatbots, Machine Learning & Backend Automation - Ali Awdeh",
+    description:
+      "Professional experience across AI chatbots, WhatsApp workflows, machine learning systems, backend integrations, LLM evaluation, and automation.",
+    url: "https://aliawdeh.com/experience",
+    type: "website",
+  },
+  alternates: { canonical: "https://aliawdeh.com/experience" },
 };
 
 const currentRoleHighlights = [

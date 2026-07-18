@@ -5,12 +5,20 @@ import YouTubeLite from "@/components/YoutubeLite";
 
 // Page-specific SEO (overrides defaults from layout)
 export const metadata: Metadata = {
-  title: "Talks & Presentations — Ali Awdeh",
+  title: "Talks on Invention, AI, Technology & Public Speaking",
   description:
-    "Public speaking, media interviews, international invention events, and technical discussions by Ali Awdeh.",
+    "Public speaking, media interviews, international invention events, and technical discussions by Ali Awdeh, a Beirut, Lebanon based inventor and AI/backend engineer.",
+  keywords: [
+    "Ali Awdeh talks",
+    "Beirut inventor speaker",
+    "Lebanese inventor interviews",
+    "AI engineer talks Lebanon",
+    "technology interviews Beirut",
+    "invention public speaking Lebanon"
+  ],
   openGraph: {
-    title: "Talks & Presentations — Ali Awdeh",
-    description: "Public speaking, media interviews, international invention events, and technical discussions.",
+    title: "Talks on Invention, AI, Technology & Public Speaking - Ali Awdeh",
+    description: "Public speaking, media interviews, international invention events, and technical discussions from Beirut, Lebanon.",
     url: "https://aliawdeh.com/talks",
     type: "website",
   },

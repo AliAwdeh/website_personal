@@ -5,6 +5,7 @@ export function Footer() {
         <span>© {new Date().getFullYear()} Ali Awdeh</span>
         <div className="flex items-center gap-4">
           <a href="mailto:Ali.I.Awdeh@gmail.com" className="hover:underline">Email</a>
+          <a href="https://wa.me/96171056438" className="hover:underline" target="_blank" rel="noopener noreferrer">WhatsApp Chatbot</a>
           <a href="https://linkedin.com/in/AliAwdeh" className="hover:underline">LinkedIn</a>
           <a href="https://github.com/aliawdeh" className="hover:underline">GitHub</a>
         </div>

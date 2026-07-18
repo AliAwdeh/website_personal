@@ -5,18 +5,33 @@ import { Card } from "@/components/Card";
 import { Badge } from "@/components/Badge";
 
 export const metadata: Metadata = {
-  title: "Ali Awdeh - AI & Backend Software Engineer",
+  title: "Ali Awdeh - AI Chatbots, Machine Learning & Backend Engineer in Beirut, Lebanon",
   description:
-    "Ali Awdeh is an AI and Backend Software Engineer focused on LLM assistants, workflow automation, backend integrations, process improvement, and production-ready AI systems.",
+    "Ali Awdeh is a Beirut, Lebanon based AI and Backend Software Engineer, inventor, and automation specialist building AI chatbots, machine learning systems, LLM assistants, WhatsApp chatbot workflows, backend integrations, and production-ready AI systems.",
+  keywords: [
+    "AI chatbots Lebanon",
+    "AI chatbots Beirut",
+    "machine learning Lebanon",
+    "machine learning Beirut",
+    "AI engineer Lebanon",
+    "AI engineer Beirut",
+    "WhatsApp chatbot Lebanon",
+    "Lebanese inventor AI",
+    "Beirut inventor AI",
+    "LLM assistant developer",
+    "backend AI engineer"
+  ],
   openGraph: {
-    title: "Ali Awdeh - AI & Backend Software Engineer",
+    title: "Ali Awdeh - AI Chatbots, Machine Learning & Backend Engineer in Beirut",
     description:
-      "Practical AI systems, backend integrations, workflow automation, LLM evaluation, and process improvement.",
+      "AI chatbots, machine learning systems, WhatsApp chatbot workflows, backend integrations, automation, LLM evaluation, and invention-backed AI engineering in Beirut, Lebanon.",
     url: "https://aliawdeh.com",
     type: "website",
   },
   alternates: { canonical: "https://aliawdeh.com" },
 };
+
+const whatsappChatbotUrl = "https://wa.me/96171056438";
 
 const operationsCards = [
   {
@@ -60,6 +75,29 @@ const services = [
   },
 ];
 
+const seoFocusAreas = [
+  {
+    title: "AI Chatbots in Lebanon",
+    text: "Designing AI chatbot and WhatsApp chatbot workflows for applicant guidance, customer operations, document collection, routing, follow-up, and business process automation.",
+    skills: ["AI Chatbots", "WhatsApp Chatbot", "Lebanon", "Beirut"],
+  },
+  {
+    title: "Machine Learning & LLM Systems",
+    text: "Building practical machine learning, LLM assistant, evaluation, guardrail, retrieval, and local AI infrastructure experiments that connect model behavior to real workflows.",
+    skills: ["Machine Learning", "LLMs", "Evaluation", "Guardrails"],
+  },
+  {
+    title: "Backend AI Automation",
+    text: "Connecting AI systems with backend APIs, databases, Snowflake SQL, n8n workflows, reporting, authentication, and operational tools.",
+    skills: ["Backend APIs", "n8n", "Snowflake SQL", "Automation"],
+  },
+  {
+    title: "Inventor & AI Engineer in Beirut",
+    text: "Combining a Lebanese invention background, patents, international awards, and software engineering to create practical AI systems for businesses and operations.",
+    skills: ["Inventor", "Patents", "Beirut", "AI Engineer"],
+  },
+];
+
 const bestFitRoles = [
   "AI Software Engineer",
   "Backend Software Engineer",
@@ -83,6 +121,11 @@ export default function Page() {
     ],
     jobTitle: "AI and Backend Software Engineer",
     knowsAbout: [
+      "AI Chatbots",
+      "Machine Learning",
+      "WhatsApp Chatbots",
+      "AI Engineering in Lebanon",
+      "AI Engineering in Beirut",
       "AI Software Engineering",
       "Backend Software Engineering",
       "LLM Assistants",
@@ -91,7 +134,20 @@ export default function Page() {
       "Process Improvement",
       "Backend Integrations",
       "Product Engineering",
+      "Lebanese Inventions",
+      "Patents",
     ],
+    homeLocation: {
+      "@type": "Place",
+      name: "Beirut, Lebanon",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "WhatsApp chatbot",
+      telephone: "+96171056438",
+      url: whatsappChatbotUrl,
+      areaServed: ["Lebanon", "Beirut", "Worldwide"],
+    },
     award: [
       "Geneva International Exhibition of Inventions - Gold",
       "IIFME - Gold",
@@ -137,6 +193,9 @@ export default function Page() {
               <Link href="/contact" className="btn">
                 Contact Me
               </Link>
+              <a href={whatsappChatbotUrl} className="btn" target="_blank" rel="noopener noreferrer">
+                Try WhatsApp Chatbot
+              </a>
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2">
@@ -144,6 +203,9 @@ export default function Page() {
               <Badge>Backend APIs</Badge>
               <Badge>Workflow Automation</Badge>
               <Badge>LLM Evaluation</Badge>
+              <Badge>AI Chatbots Lebanon</Badge>
+              <Badge>Machine Learning</Badge>
+              <Badge>Beirut AI Engineer</Badge>
               <Badge>Process Improvement</Badge>
               <Badge>n8n</Badge>
               <Badge>Snowflake SQL</Badge>
@@ -195,6 +257,30 @@ export default function Page() {
               <p className="p-dim mt-2 leading-relaxed">{item.text}</p>
             </Card>
           ))}
+        </div>
+      </Section>
+
+      <Section
+        title="AI Chatbots, Machine Learning & Automation in Lebanon"
+        subtitle="AI engineering work from Beirut across chatbots, LLM systems, backend automation, invention, and practical business operations."
+      >
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {seoFocusAreas.map((item) => (
+            <Card key={item.title}>
+              <h3 className="text-lg font-semibold">{item.title}</h3>
+              <p className="p-dim mt-2 leading-relaxed">{item.text}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {item.skills.map((skill) => (
+                  <Badge key={skill}>{skill}</Badge>
+                ))}
+              </div>
+            </Card>
+          ))}
+        </div>
+        <div className="mt-6">
+          <a className="btn btn-accent" href={whatsappChatbotUrl} target="_blank" rel="noopener noreferrer">
+            Try Ali's WhatsApp Chatbot
+          </a>
         </div>
       </Section>
 
@@ -315,6 +401,9 @@ export default function Page() {
             <Link href="/contact" className="btn btn-accent">
               Contact Me
             </Link>
+            <a href={whatsappChatbotUrl} className="btn" target="_blank" rel="noopener noreferrer">
+              WhatsApp Chatbot
+            </a>
             <a href="/Ali_Awdeh_CV.pdf" className="btn" download>
               Download CV
             </a>

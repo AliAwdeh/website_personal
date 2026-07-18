@@ -4,9 +4,26 @@ import { Card } from "@/components/Card";
 import { Badge } from "@/components/Badge";
 
 export const metadata: Metadata = {
-  title: "Projects - Ali Awdeh",
+  title: "AI Chatbot, Machine Learning & Backend Projects",
   description:
-    "AI automation, LLM evaluation, backend integrations, workflow automation, local LLM infrastructure, and process-improvement projects by Ali Awdeh.",
+    "AI chatbot, WhatsApp automation, machine learning, LLM evaluation, backend integration, local LLM infrastructure, and process-improvement projects by Ali Awdeh in Beirut, Lebanon.",
+  keywords: [
+    "AI chatbot projects Lebanon",
+    "machine learning projects Beirut",
+    "WhatsApp automation Lebanon",
+    "LLM evaluation projects",
+    "backend AI projects",
+    "Ali Awdeh projects",
+    "Lebanon AI portfolio"
+  ],
+  openGraph: {
+    title: "AI Chatbot, Machine Learning & Backend Projects - Ali Awdeh",
+    description:
+      "Selected AI chatbot, machine learning, LLM evaluation, automation, and backend integration projects by Ali Awdeh in Beirut, Lebanon.",
+    url: "https://aliawdeh.com/projects",
+    type: "website",
+  },
+  alternates: { canonical: "https://aliawdeh.com/projects" },
 };
 
 const caseStudies = [

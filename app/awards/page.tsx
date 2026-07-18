@@ -4,9 +4,26 @@ import { Card } from "@/components/Card";
 import { awards, memberships, patents } from "@/data/recognition";
 
 export const metadata: Metadata = {
-  title: "Awards, Memberships & Patents — Ali Awdeh",
+  title: "Lebanese Inventor, Patents & AI Engineering Awards",
   description:
-    "International invention awards, IFIA membership, patents, and the practical R&D background behind Ali Awdeh's AI and backend engineering work.",
+    "International invention awards, IFIA membership, patents, and the practical R&D background behind Ali Awdeh's AI chatbot, machine learning, backend engineering, and automation work in Beirut, Lebanon.",
+  keywords: [
+    "Lebanese inventor AI",
+    "Beirut inventor",
+    "Ali Awdeh patents",
+    "AI inventor Lebanon",
+    "Lebanon invention awards",
+    "machine learning inventor Beirut",
+    "IFIA member Lebanon"
+  ],
+  openGraph: {
+    title: "Lebanese Inventor, Patents & AI Engineering Awards - Ali Awdeh",
+    description:
+      "Patents, IFIA membership, and international invention awards supporting Ali Awdeh's AI chatbot, machine learning, backend, and automation work.",
+    url: "https://aliawdeh.com/awards",
+    type: "website",
+  },
+  alternates: { canonical: "https://aliawdeh.com/awards" },
 };
 
 function Gallery({ images, alt }: { images?: string[]; alt: string }) {

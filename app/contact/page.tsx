@@ -4,13 +4,33 @@ import { Card } from "@/components/Card";
 import { Badge } from "@/components/Badge";
 
 export const metadata: Metadata = {
-  title: "Contact - Ali Awdeh",
+  title: "Contact Ali Awdeh - AI Chatbots, Machine Learning & Backend Engineering",
   description:
-    "Contact Ali Awdeh for AI engineering, backend software engineering, automation, product-engineering, process-improvement, and technical advisory opportunities.",
+    "Contact Ali Awdeh in Beirut, Lebanon for AI chatbot development, WhatsApp chatbot workflows, machine learning systems, backend software engineering, automation, product-engineering, process-improvement, and technical advisory opportunities.",
+  keywords: [
+    "contact AI engineer Lebanon",
+    "AI chatbot developer Beirut",
+    "WhatsApp chatbot Lebanon",
+    "machine learning engineer Lebanon",
+    "Ali Awdeh contact",
+    "Lebanon AI consultant"
+  ],
+  openGraph: {
+    title: "Contact Ali Awdeh - AI Chatbots, Machine Learning & Backend Engineering",
+    description:
+      "Reach Ali Awdeh for AI chatbots, WhatsApp chatbot workflows, machine learning, backend systems, and automation in Beirut, Lebanon.",
+    url: "https://aliawdeh.com/contact",
+    type: "website",
+  },
+  alternates: { canonical: "https://aliawdeh.com/contact" },
 };
+
+const whatsappChatbotUrl = "https://wa.me/96171056438";
 
 const profileHighlights = [
   "AI systems and automation",
+  "AI chatbots and WhatsApp chatbot workflows",
+  "Machine learning and LLM systems",
   "Backend and integration engineering",
   "Product and process improvement",
   "LLM evaluation and guardrails",
@@ -33,6 +53,12 @@ export default function ContactPage() {
 
           <ul className="mt-6 space-y-3">
             <li>
+              WhatsApp Chatbot:{" "}
+              <a className="hover:underline" href={whatsappChatbotUrl} target="_blank" rel="noopener noreferrer">
+                +961 71 056 438
+              </a>
+            </li>
+            <li>
               Email:{" "}
               <a className="hover:underline" href="mailto:Ali.I.Awdeh@gmail.com">
                 Ali.I.Awdeh@gmail.com
@@ -51,7 +77,7 @@ export default function ContactPage() {
               </a>
             </li>
             <li>
-              WhatsApp:{" "}
+              Direct WhatsApp:{" "}
               <a className="hover:underline" href="https://wa.me/96171161670">
                 +961 71 161 670
               </a>
@@ -70,6 +96,9 @@ export default function ContactPage() {
             ))}
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a href={whatsappChatbotUrl} className="btn btn-accent" target="_blank" rel="noopener noreferrer">
+              Try WhatsApp Chatbot
+            </a>
             <a href="/Ali_Awdeh_CV.pdf" className="btn btn-accent" download>
               Download CV
             </a>

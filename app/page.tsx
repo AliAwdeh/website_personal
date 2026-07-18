@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Section } from "@/components/Section";
 import { Card } from "@/components/Card";
 import { Badge } from "@/components/Badge";
+import { ChatbotNudge } from "@/components/ChatbotNudge";
 
 export const metadata: Metadata = {
   title: "Ali Awdeh - AI Chatbots, Machine Learning & Backend Engineer in Beirut, Lebanon",
@@ -158,6 +159,7 @@ export default function Page() {
 
   return (
     <div>
+      <ChatbotNudge />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
